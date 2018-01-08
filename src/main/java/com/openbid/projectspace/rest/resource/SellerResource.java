@@ -3,26 +3,28 @@
  */
 package com.openbid.projectspace.rest.resource;
 
-import java.util.UUID;
-
 /**
  * @author Anand Raju
  *
  */
-public class SellerResource {
+public class SellerResource extends AbstractResource{
 	/**
 	 * 
 	 */
-	private static final String SLR = "slr-";
-	
-	private String id;
+	protected String idPrefix= "slr-";
 	
 	public SellerResource() {
-		this.id= SLR + UUID.randomUUID().toString();
+		super();
+		this.id=generateId();
 	}
 	
 	public String getId() {
 		return id;
+	}
+	
+	@Override
+	public String getPrefix() {
+		return idPrefix;
 	}
 	
 }

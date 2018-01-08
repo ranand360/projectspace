@@ -1,40 +1,51 @@
-/**
- * @author Anand Raju
- */
 package com.openbid.projectspace.rest.resource;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Anand Raju
  *
  */
-public class BuyerResource {
+public class BuyerResource extends AbstractResource{
 	/**
 	 * 
 	 */
-	private static final String BYR = "byr-";
-	
-	private String id;
+	protected String idPrefix= "byr-";
 	
 	private List<String> projectIdsWon;
 	
 	public BuyerResource() {
-		this.id= BYR + UUID.randomUUID().toString();
-		projectIdsWon = new ArrayList<String>();
+		super();
+		this.id=generateId();
+		initialize();
 	}
 	
-	public String getId() {
-		return id;
+	/**
+	 * Initialize the list to hold all Projects the Buyer will won
+	 */
+	private void initialize() {
+		projectIdsWon = new ArrayList<String>();
 	}
 
+	/**
+	 * @return Get the list of projects the buyer has won
+	 */
 	public List<String> getProjectIdsWon() {
 		return projectIdsWon;
 	}
 
+	/**
+	 * @param project - Add the project to the list of projects the buyer has won
+	 */
 	public void projectWon(String project) {
-		projectIdsWon.add(project);
+		if(project != null && !projectIdsWon.contains(project)) {
+			projectIdsWon.add(project);
+		}
+	}
+	
+	@Override
+	public String getPrefix() {
+		return idPrefix;
 	}
 }

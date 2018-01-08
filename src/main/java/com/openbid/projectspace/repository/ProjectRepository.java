@@ -3,13 +3,12 @@
  */
 package com.openbid.projectspace.repository;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.openbid.projectspace.rest.resource.AbstractResource;
 import com.openbid.projectspace.rest.resource.ProjectResource;
 
 /**
@@ -17,29 +16,15 @@ import com.openbid.projectspace.rest.resource.ProjectResource;
  *
  */
 
-public class ProjectRepository {
+public class ProjectRepository extends ResourceRepository{
 	
 	private static ProjectRepository soleInstance = null;
 	
-	private Map<String,ProjectResource> repository;
+	protected Map<String,AbstractResource> activeProjects;
 	
-	private Map<String,ProjectResource> activeProjects;
-	
-	protected ProjectRepository() {
-		initialize();
-	}
-	
-	private void initialize() {
-		repository = new ConcurrentHashMap<String,ProjectResource>();
-		activeProjects = new ConcurrentHashMap<String,ProjectResource>();
-	}
-	
-	public ProjectResource findById(String id){
-		ProjectResource project = null;
-		if(repository != null) {
-			project = repository.get(id);
-		}
-		return project;
+	protected void initialize() {
+		super.initialize();
+		activeProjects = new ConcurrentHashMap<String,AbstractResource>();
 	}
 
 	/**
@@ -51,40 +36,12 @@ public class ProjectRepository {
 		}
 		return soleInstance;
 	}
-	
-	public void add(ProjectResource project, boolean overwrite) {
-		if(project == null) {
-			return;
-		}
-		String id = project.getId();
-		
-		if(id == null) {
-			return;
-		}
-		
-		if(!overwrite && findById(id) != null) {
-			return;
-		}
-		
-		repository.put(id, project);
-	}
 
 	/**
 	 * @return
 	 */
-	public List<ProjectResource> getAll() {
-		List<ProjectResource> projects = null;
-		if(repository != null) {
-			projects = new ArrayList<ProjectResource>(repository.values());
-		}
-		return projects;
-	}
-
-	/**
-	 * @return
-	 */
-	public List<ProjectResource> getAllActiveProjects() {
-		return (List<ProjectResource>) activeProjects.values();
+	public List<AbstractResource> getAllActiveProjects() {
+		return (List<AbstractResource>) activeProjects.values();
 	}
 
 	/**
@@ -94,7 +51,8 @@ public class ProjectRepository {
 		Date todayDate = new Date();
 		activeProjects.clear();
 		activeProjects.putAll(repository);
-		for(ProjectResource project:activeProjects.values()) {
+		for(AbstractResource resource:activeProjects.values()) {
+			ProjectResource project = (ProjectResource)resource;
 			//Check project has gone past its endDate
 			if(todayDate.compareTo(project.getEndTime()) > 0) {
 				project.setExpired(true);

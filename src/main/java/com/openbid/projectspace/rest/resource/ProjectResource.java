@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,13 +15,12 @@ import com.openbid.projectspace.rest.constant.RequestConstants;
  *
  */
 
-public class ProjectResource implements RequestConstants{
+public class ProjectResource extends AbstractResource implements RequestConstants{
 	
 	private static final int DEFAULT_EXPIRY_DAYS = 1;
     private static final double DEFAULT_MAX_BUDGET = 100000.0;
-    private static final String PRJ = "prj-";
+    protected String idPrefix= "prj-";
     
-	private String id;
 	private String requirement;
 	private double maxBudget;
 	private Date endTime;
@@ -32,7 +30,8 @@ public class ProjectResource implements RequestConstants{
 	private double lowestBid;
 	
 	public ProjectResource(String requirement, String maxBudget, String endTime, String sellerId) {
-		this.id=new String(PRJ+UUID.randomUUID().toString());
+		
+		this.id=generateId();
 		
 		this.requirement = requirement;
 		
@@ -63,7 +62,7 @@ public class ProjectResource implements RequestConstants{
 		
 		this.lowestBid = this.maxBudget;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -94,10 +93,6 @@ public class ProjectResource implements RequestConstants{
 			status=true;
 		}
 		return status;
-	}
-		
-	public String getId() {
-		return id;
 	}
 
 	public String getRequirement() {
@@ -157,6 +152,12 @@ public class ProjectResource implements RequestConstants{
 
 	public void setLowestBid(double lowestBid) {
 		this.lowestBid = lowestBid;
+	}
+
+	
+	@Override
+	public String getPrefix() {
+		return idPrefix;
 	}
 	 
 }
