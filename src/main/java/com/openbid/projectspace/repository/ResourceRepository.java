@@ -8,16 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.openbid.projectspace.rest.resource.AbstractResource;
+import com.openbid.projectspace.rest.resource.Resource;
 
 /**
  * @author Anand Raju
  * Abstract Resource Repository - Provides a basic API to store and retrieve resources that all resource repositories must extend
  *
  */
-public abstract class ResourceRepository {
+public abstract class ResourceRepository implements Repository {
 
-	protected Map<String,AbstractResource> repository;
+	protected Map<String,Resource> repository;
 	
 	protected ResourceRepository() {
 		initialize();
@@ -27,14 +27,14 @@ public abstract class ResourceRepository {
 	 * Initializes the repository
 	 */
 	protected void initialize() {
-		repository = new HashMap<String,AbstractResource>();
+		repository = new HashMap<String,Resource>();
 	}
 	
 
 	/**
 	 * @param resource Adds the resource to the repository
 	 */
-	public void add(AbstractResource resource, boolean overwrite) {
+	public void add(Resource resource, boolean overwrite) {
 		if(resource == null) {
 			return;
 		}
@@ -51,7 +51,7 @@ public abstract class ResourceRepository {
 		repository.put(id, resource);
 	}
 	
-	public void add(AbstractResource project) {
+	public void add(Resource project) {
 		add(project,Boolean.FALSE);
 	}
 	
@@ -60,8 +60,8 @@ public abstract class ResourceRepository {
 	 * @param id
 	 * @return Returns the resource found by id. Returns null otherwise.
 	 */
-	public AbstractResource findById(String id){
-		AbstractResource resource = null;
+	public Resource findById(String id){
+		Resource resource = null;
 		if(repository != null) {
 			resource = repository.get(id);
 		}
@@ -71,10 +71,10 @@ public abstract class ResourceRepository {
 	/**
 	 * @return Returns a list of all the resource. Returns null if no resources are found.
 	 */
-	public List<AbstractResource> getAll() {
-		List<AbstractResource> recources = null;
+	public List<Resource> getAll() {
+		List<Resource> recources = null;
 		if(repository != null) {
-			recources = new ArrayList<AbstractResource>(repository.values());
+			recources = new ArrayList<Resource>(repository.values());
 		}
 		return recources;
 	}

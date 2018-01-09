@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /*
  * AbstractResource that all resources must extend.  
  */
-public abstract class AbstractResource {
+public abstract class AbstractResource implements Resource{
 	//id property for the resource
 	protected String id;
 	

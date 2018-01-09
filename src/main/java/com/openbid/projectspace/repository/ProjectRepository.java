@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.openbid.projectspace.rest.resource.AbstractResource;
+import com.openbid.projectspace.rest.resource.Resource;
 import com.openbid.projectspace.rest.resource.ProjectResource;
 
 /**
@@ -20,11 +20,11 @@ public class ProjectRepository extends ResourceRepository{
 	
 	private static ProjectRepository soleInstance = null;
 	
-	protected Map<String,AbstractResource> activeProjects;
+	protected Map<String,Resource> activeProjects;
 	
 	protected void initialize() {
 		super.initialize();
-		activeProjects = new ConcurrentHashMap<String,AbstractResource>();
+		activeProjects = new ConcurrentHashMap<String,Resource>();
 	}
 
 	/**
@@ -40,8 +40,8 @@ public class ProjectRepository extends ResourceRepository{
 	/**
 	 * @return
 	 */
-	public List<AbstractResource> getAllActiveProjects() {
-		return (List<AbstractResource>) activeProjects.values();
+	public List<Resource> getAllActiveProjects() {
+		return (List<Resource>) activeProjects.values();
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class ProjectRepository extends ResourceRepository{
 		Date todayDate = new Date();
 		activeProjects.clear();
 		activeProjects.putAll(repository);
-		for(AbstractResource resource:activeProjects.values()) {
+		for(Resource resource:activeProjects.values()) {
 			ProjectResource project = (ProjectResource)resource;
 			//Check project has gone past its endDate
 			if(todayDate.compareTo(project.getEndTime()) > 0) {

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,9 +14,9 @@ import com.openbid.projectspace.repository.BuyerRepository;
 import com.openbid.projectspace.repository.ProjectRepository;
 import com.openbid.projectspace.repository.SellerRepository;
 import com.openbid.projectspace.rest.constant.RequestConstants;
-import com.openbid.projectspace.rest.resource.AbstractResource;
 import com.openbid.projectspace.rest.resource.BuyerResource;
 import com.openbid.projectspace.rest.resource.ProjectResource;
+import com.openbid.projectspace.rest.resource.Resource;
 import com.openbid.projectspace.rest.resource.SellerResource;
 
 @RestController
@@ -29,12 +28,12 @@ public class ProjectController implements RequestConstants{
     private BuyerRepository buyerRepository;
     
 	@RequestMapping(value= "/projects" , method= RequestMethod.GET)
-    public List<AbstractResource> getProjects(@RequestParam(value="id", defaultValue="") String id,
+    public List<Resource> getProjects(@RequestParam(value="id", defaultValue="") String id,
     		@RequestParam(value="openProjectsOnly", defaultValue="true") String open) {
 		
-		List<AbstractResource> projects = new ArrayList<AbstractResource>();
+		List<Resource> projects = new ArrayList<Resource>();
 		
-		AbstractResource project = null;
+		Resource project = null;
 		
 		projectRepository = ProjectRepository.getSoleInstance();
 		
@@ -56,7 +55,7 @@ public class ProjectController implements RequestConstants{
     }
 	
 	@RequestMapping(value= "/projects", method= RequestMethod.POST)
-    public AbstractResource updateProject(
+    public Resource updateProject(
     		@RequestParam(value="requirement", defaultValue="") String requirement,
     		@RequestParam(value="maxBudget", defaultValue=_0_0) String maxBudget,
     		@RequestParam(value="endTime", defaultValue=_0_0) String endTime,
@@ -68,7 +67,7 @@ public class ProjectController implements RequestConstants{
 		//buyerRepository = BuyerRepository.getSoleInstance();
 		
 		
-    	AbstractResource seller;
+    	Resource seller;
     	if(sellerId.isEmpty()) {
     		seller = new SellerResource();
     		sellerRepository.add(seller);
@@ -80,7 +79,7 @@ public class ProjectController implements RequestConstants{
     		}
     	}
     	
-    	AbstractResource project = new ProjectResource(requirement, maxBudget, endTime, seller.getId());
+    	Resource project = new ProjectResource(requirement, maxBudget, endTime, seller.getId());
     	projectRepository.add(project, false);
         return project;
     }	
@@ -95,7 +94,7 @@ public class ProjectController implements RequestConstants{
 		//sellerRepository = SellerRepository.getSoleInstance();
 		buyerRepository = BuyerRepository.getSoleInstance();
 		
-		AbstractResource buyer;
+		Resource buyer;
 		if(buyerId.isEmpty()) {
 			buyer = new BuyerResource();
 			buyerRepository.add(buyer);
@@ -107,7 +106,7 @@ public class ProjectController implements RequestConstants{
     		}
 		}
 		
-		AbstractResource project;
+		Resource project;
 		if(projectId.isEmpty()) {
 			log.debug("projectId parameter has to provided");
 			return false;
