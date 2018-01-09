@@ -82,7 +82,7 @@ public class ProjectController implements RequestConstants {
 	 */
 	@RequestMapping(value = "/projects", method = RequestMethod.POST)
 	public Resource createProject(@RequestParam(value = "requirement", defaultValue = "") String requirement,
-			@RequestParam(value = "maxBudget", defaultValue = _0_0) String maxBudget,
+			@RequestParam(value = "maxBudget", defaultValue = "") String maxBudget,
 			@RequestParam(value = "endTime", defaultValue = _0_0) String endTime,
 			@RequestParam(value = "sellerId", defaultValue = "") String sellerId) {
 

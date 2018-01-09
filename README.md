@@ -46,5 +46,5 @@ Download and install the following
 ----------------------------
 ### Default Behavior
 --------------------
-* endTime is Defaulted to 24 from current time if left empty
-* projects will expire with a refresh frequency of 1s
+* endTime is Defaulted to 24h from current time if left empty
+* project expiry is set to an update frequency of 1s
