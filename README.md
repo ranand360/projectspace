@@ -23,29 +23,28 @@ Download and install the following
 ### GET /projects
 -----------------
 * API to get projects that are available. Allows the GET action to get a project by id (or) get all projects (or) get only open projects
-	@param id - id for the project being request (optional)
-	@param open - true/false to filter only projects that are open in the result (optional)
+	*param id - id for the project being request (optional)
+	*param open - true/false to filter only projects that are open in the result (optional)
 
 ### POST /projects
 ------------------ 
 * API to create a project. Allows the POST action to submit a project for auction
-	@param requirement - Requirement for the project.
-	@param maxBudget - Maximum budget to bid for the project. 
-	@param endTime - End time to stop accepting bids for the project
-	@param sellerId - seller's Id who is creating the project
+	*param requirement - Requirement for the project.
+	*param maxBudget - Maximum budget to bid for the project. 
+	*param endTime - End time to stop accepting bids for the project
+	*param sellerId - seller's Id who is creating the project
 
 ### POST /bid
 -------------	
 * API to bid for a project. Allows the POST action to submit a bid
-	@param buyerId - the buyer who is making the bid
-	@param projectId - the project for which the bid is being made
-	@param bidAmount - the amount to bid for
+	*param buyerId - the buyer who is making the bid
+	*param projectId - the project for which the bid is being made
+	*param bidAmount - the amount to bid for
 
 
 ## Assumptions and Defaults
 ----------------------------
 ### Default Behavior
 --------------------
-* bidValue is Defaulted to 100,000
-* endTime is Defaulted to 24 from current time
-* 
+* endTime is Defaulted to 24 from current time if left empty
+* projects will expire with a refresh frequency of 1s
