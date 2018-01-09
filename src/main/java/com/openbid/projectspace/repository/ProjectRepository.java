@@ -9,25 +9,24 @@ import com.openbid.projectspace.rest.resource.Resource;
 import com.openbid.projectspace.rest.resource.ProjectResource;
 
 /**
+ * Repository to store/retrieve all ProjectResources
  * @author Anand Raju
- *
  */
 
 public class ProjectRepository extends ResourceRepository {
-
+	
 	private static ProjectRepository soleInstance = null;
-
-	protected Map<String, Resource> activeProjects;
+	
+	//Map of all inActiveProjects. Helps to retrieve ActiveProjects quickly.
 	protected Map<String, Resource> inActiveProjects;
-
+	
 	protected void initialize() {
 		super.initialize();
-		activeProjects = new ConcurrentHashMap<String, Resource>();
 		inActiveProjects = new ConcurrentHashMap<String, Resource>();
 	}
 
 	/**
-	 * @return
+	 * @return - Handle to the singleton instance
 	 */
 	public static ProjectRepository getSoleInstance() {
 		if (soleInstance == null) {
@@ -37,7 +36,7 @@ public class ProjectRepository extends ResourceRepository {
 	}
 
 	/**
-	 * @return
+	 * @return - Returns all projects that are active
 	 */
 	public List<Resource> getAllActiveProjects() {
 		List<Resource> projects = (List<Resource>) getAll();
@@ -46,11 +45,14 @@ public class ProjectRepository extends ResourceRepository {
 	}
 
 	/**
-	 * 
+	 * Method to close all projects that have expired.
+	 * Modifies project's expiry to true
+	 * Notifies Lowest Bidder that he won the project
+	 * Appends to inActiveProjects Map for subsequent optimized lookup 
 	 */
 	public void terminateExpiredProjects() {
 		Date todayDate = new Date();
-		for (Resource resource : repository.values()) {
+		for (Resource resource : getAllActiveProjects()) {
 			ProjectResource project = (ProjectResource) resource;
 			// Check project has gone past its endDate
 			if (todayDate.compareTo(project.getEndTime()) > 0) {

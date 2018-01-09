@@ -30,8 +30,9 @@ public abstract class ResourceRepository implements Repository {
 	}
 
 	/**
-	 * @param resource
-	 *            Adds the resource to the repository
+	 * Add a resource to the repository 
+	 * @param resource - resource to be added
+	 * @param overwrite - true/false signifying update existing if resource already exists in repository
 	 */
 	public void add(Resource resource, boolean overwrite) {
 		if (resource == null) {
@@ -49,14 +50,19 @@ public abstract class ResourceRepository implements Repository {
 
 		repository.put(id, resource);
 	}
-
+	
+	/**
+	 * Add a resource to the repository. Returns without adding if resource already exists in repository
+	 * @param resource - resource to be added
+	 */
 	public void add(Resource project) {
 		add(project, Boolean.FALSE);
 	}
 
 	/**
-	 * @param id
-	 * @return Returns the resource found by id. Returns null otherwise.
+	 * Find a resource in the repository by id
+	 * @param id - id to use for lookup
+	 * @return - resource found with id. Null if not found.
 	 */
 	public Resource findById(String id) {
 		Resource resource = null;
@@ -67,8 +73,7 @@ public abstract class ResourceRepository implements Repository {
 	}
 
 	/**
-	 * @return Returns a list of all the resource. Returns null if no resources are
-	 *         found.
+	 * @return - List of resources in the repository. Return empty if no resource are present.
 	 */
 	public List<Resource> getAll() {
 		List<Resource> recources = null;

@@ -4,8 +4,8 @@
 package com.openbid.projectspace.repository;
 
 /**
+ * Repository to store/retrieve all SellerResources
  * @author Anand Raju
- *
  */
 
 public class SellerRepository extends ResourceRepository {
@@ -13,7 +13,7 @@ public class SellerRepository extends ResourceRepository {
 	private static SellerRepository soleInstance = null;
 
 	/**
-	 * @return
+	 * @return - Handle to the singleton instance
 	 */
 	public static SellerRepository getSoleInstance() {
 		if (soleInstance == null) {

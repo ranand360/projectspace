@@ -3,8 +3,8 @@ package com.openbid.projectspace.repository;
 import com.openbid.projectspace.rest.resource.BuyerResource;
 
 /**
+ * Repository to store/retrieve all BuyerResources
  * @author Anand Raju
- *
  */
 
 public class BuyerRepository extends ResourceRepository {
@@ -12,9 +12,7 @@ public class BuyerRepository extends ResourceRepository {
 	private static BuyerRepository soleInstance = null;
 
 	/**
-	 * Method to get access to sole instance
-	 * 
-	 * @return soleInstance
+	 * @return - Handle to the singleton instance
 	 */
 	public static BuyerRepository getSoleInstance() {
 		if (soleInstance == null) {
@@ -24,8 +22,8 @@ public class BuyerRepository extends ResourceRepository {
 	}
 
 	/**
-	 * @param projectId
-	 * @param lowestBidderId
+	 * @param lowestBidderId - The buyer id who won 
+	 * @param projectId - The project won by the buyer
 	 */
 	public void notifyWin(String lowestBidderId, String projectId) {
 		BuyerResource buyer = (BuyerResource) findById(lowestBidderId);

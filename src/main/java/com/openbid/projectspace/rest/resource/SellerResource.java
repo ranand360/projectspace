@@ -5,9 +5,7 @@ package com.openbid.projectspace.rest.resource;
  * @author Anand Raju
  */
 public class SellerResource extends AbstractResource {
-	/**
-	 * 
-	 */
+	
 	protected String idPrefix = "slr-";
 
 	/**
