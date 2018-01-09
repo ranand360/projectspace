@@ -14,6 +14,8 @@ import com.openbid.projectspace.repository.BuyerRepository;
 import com.openbid.projectspace.repository.ProjectRepository;
 import com.openbid.projectspace.repository.SellerRepository;
 import com.openbid.projectspace.rest.constant.RequestConstants;
+import com.openbid.projectspace.rest.exception.ResourceNotFoundException;
+import com.openbid.projectspace.rest.exception.IllegalArgumentException;
 import com.openbid.projectspace.rest.resource.BuyerResource;
 import com.openbid.projectspace.rest.resource.ProjectResource;
 import com.openbid.projectspace.rest.resource.Resource;
@@ -42,6 +44,9 @@ public class ProjectController implements RequestConstants{
 		//Checking id if a specific project is being requested
 		if(!id.isEmpty()) {
 			project = projectRepository.findById(id);
+			if(project == null) {
+				throw new ResourceNotFoundException("Project with id "+ id +" could not be found");
+			}
 			projects.add(project);
 		}else {
 			if(openProjectsOnly) {
@@ -74,8 +79,8 @@ public class ProjectController implements RequestConstants{
     	}else {
     		seller = sellerRepository.findById(sellerId);
     		if(seller == null) {
-    			log.debug("Seller not found: ", seller);
-    			return null;
+    			log.debug("Seller not found: ", sellerId);
+    			throw new ResourceNotFoundException("Seller with id "+ sellerId +" could not be found");
     		}
     	}
     	
@@ -101,20 +106,20 @@ public class ProjectController implements RequestConstants{
 		}else {
 			buyer = (BuyerResource) buyerRepository.findById(buyerId);
 			if(buyer == null) {
-    			log.debug("Buyer not found: ", buyer);
-    			return false;
+    			log.debug("Buyer not found: ", buyerId);
+    			throw new ResourceNotFoundException("Buyer with id "+ buyerId +" could not be found");
     		}
 		}
 		
 		Resource project;
 		if(projectId.isEmpty()) {
 			log.debug("projectId parameter has to provided");
-			return false;
+			throw new IllegalArgumentException("Project id cannot be empty");
 		}else {
 			project = projectRepository.findById(projectId);
 			if(project == null) {
-    			log.debug("Project not found: ", project);
-    			return false;
+    			log.debug("Project not found: ", projectId);
+    			throw new ResourceNotFoundException("Project with id "+ projectId +" could not be found");
     		}
 		}
 		
