@@ -1,6 +1,3 @@
-/**
- * @author Anand Raju
- */
 package com.openbid.projectspace.repository;
 
 import java.util.Date;
@@ -16,23 +13,25 @@ import com.openbid.projectspace.rest.resource.ProjectResource;
  *
  */
 
-public class ProjectRepository extends ResourceRepository{
-	
+public class ProjectRepository extends ResourceRepository {
+
 	private static ProjectRepository soleInstance = null;
-	
-	protected Map<String,Resource> activeProjects;
-	
+
+	protected Map<String, Resource> activeProjects;
+	protected Map<String, Resource> inActiveProjects;
+
 	protected void initialize() {
 		super.initialize();
-		activeProjects = new ConcurrentHashMap<String,Resource>();
+		activeProjects = new ConcurrentHashMap<String, Resource>();
+		inActiveProjects = new ConcurrentHashMap<String, Resource>();
 	}
 
 	/**
 	 * @return
 	 */
 	public static ProjectRepository getSoleInstance() {
-		if(soleInstance==null) {
-			soleInstance= new ProjectRepository();
+		if (soleInstance == null) {
+			soleInstance = new ProjectRepository();
 		}
 		return soleInstance;
 	}
@@ -41,7 +40,9 @@ public class ProjectRepository extends ResourceRepository{
 	 * @return
 	 */
 	public List<Resource> getAllActiveProjects() {
-		return (List<Resource>) activeProjects.values();
+		List<Resource> projects = (List<Resource>) getAll();
+		projects.removeAll(inActiveProjects.values());
+		return projects;
 	}
 
 	/**
@@ -49,17 +50,15 @@ public class ProjectRepository extends ResourceRepository{
 	 */
 	public void terminateExpiredProjects() {
 		Date todayDate = new Date();
-		activeProjects.clear();
-		activeProjects.putAll(repository);
-		for(Resource resource:activeProjects.values()) {
-			ProjectResource project = (ProjectResource)resource;
-			//Check project has gone past its endDate
-			if(todayDate.compareTo(project.getEndTime()) > 0) {
+		for (Resource resource : repository.values()) {
+			ProjectResource project = (ProjectResource) resource;
+			// Check project has gone past its endDate
+			if (todayDate.compareTo(project.getEndTime()) > 0) {
 				project.setExpired(true);
-				if(project.getLowestBidderId() != null) {
+				if (project.getLowestBidderId() != null) {
 					BuyerRepository.getSoleInstance().notifyWin(project.getLowestBidderId(), project.getId());
 				}
-				activeProjects.remove(project.getId());
+				inActiveProjects.put(project.getId(),project);
 			}
 		}
 	}

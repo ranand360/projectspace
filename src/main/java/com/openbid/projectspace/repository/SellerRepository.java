@@ -9,17 +9,17 @@ package com.openbid.projectspace.repository;
  */
 
 public class SellerRepository extends ResourceRepository {
-	
+
 	private static SellerRepository soleInstance = null;
-	
+
 	/**
 	 * @return
 	 */
 	public static SellerRepository getSoleInstance() {
-		if(soleInstance==null) {
-			soleInstance= new SellerRepository();
+		if (soleInstance == null) {
+			soleInstance = new SellerRepository();
 		}
 		return soleInstance;
 	}
-	
+
 }

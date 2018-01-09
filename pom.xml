@@ -4,9 +4,9 @@
 
   <groupId>com.openbid</groupId>
   <artifactId>projectspace</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
+  <version>1.0.0</version>
+  <packaging>war</packaging>
+  
   <name>projectspace</name>
   <url>http://maven.apache.org</url>
 
@@ -19,7 +19,20 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
+    <start-class>com.openbid.projectspace.rest.ProjectSpaceInitializer</start-class>
   </properties>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warName>${project.artifactId}</warName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
   <dependencies>
     <dependency>
@@ -31,6 +44,11 @@
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-core</artifactId>
+	</dependency>
+	<dependency>
+		 <groupId>org.springframework.boot</groupId>
+		 <artifactId>spring-boot-starter-tomcat</artifactId>
+		 <scope>provided</scope>
 	</dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>

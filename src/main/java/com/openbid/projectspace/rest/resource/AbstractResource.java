@@ -4,20 +4,22 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/*
- * AbstractResource that all resources must extend.  
+
+/**
+ * AbstractResource that all resources must extend
+ * @author Anand Raju
  */
-public abstract class AbstractResource implements Resource{
-	//id property for the resource
+public abstract class AbstractResource implements Resource {
+	// id property for the resource
 	protected String id;
-	
+
 	protected String idPrefix;
-	
+
 	/**
-	 *No argument constructor 
+	 * No argument constructor
 	 */
-	public AbstractResource() {}
-	
+	public AbstractResource() {
+	}
 
 	/**
 	 * @return id - id property of the resource
@@ -25,17 +27,17 @@ public abstract class AbstractResource implements Resource{
 	public String getId() {
 		return id;
 	}
-	
+
 	/**
 	 * @return idPrefix - id property of the resource
 	 */
 	@JsonIgnore
 	public abstract String getPrefix();
-	
+
 	/**
 	 * @return Generates an unique ID
 	 */
 	protected String generateId() {
-		return new String(getPrefix()+UUID.randomUUID().toString());
+		return new String(getPrefix() + UUID.randomUUID().toString());
 	}
 }
