@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/ranand360/projectspace/badge.svg?branch=master)](https://coveralls.io/github/ranand360/projectspace?branch=master)
 # ProjectSpace
 -----------------------
 A marketplace for software projects
